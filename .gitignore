@@ -128,3 +128,17 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+__pycache__/
+*.py[cod]
+*~
+tmp
+.DS_Store
+.coverage
+htmlcov/*
+*.swp
+config.py
+*-sol.*
+*_sol.*
+env/
+stub/

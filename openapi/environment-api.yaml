@@ -1,0 +1,202 @@
+openapi: 3.0.0
+info:
+  title: Chaopraya Rainfalls API
+  description:
+    This API provides historical rainfall data over upper Chaopraya river basin between 1987
+    and 2023.  Raw data provided by Thai Meteorological Department (TMD).
+  version: 2.0.0
+servers:
+  - url: http://127.0.0.1:8080/rain-api/v2
+paths:
+  /basins:
+    get:
+      summary: Returns a list of basins.
+      operationId: controller.get_basins
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Basin'
+  /basins/{basinId}:
+    parameters:
+    - name: basinId
+      in: path
+      required: true
+      schema:
+        type : integer
+    get:
+      summary: Returns complete details of the specified basin
+      operationId: controller.get_basin_details
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Basin'
+          links:
+            stations:
+              operationId: controller.get_stations_in_basin
+              parameters:
+                basinId: $response.body#/basinId
+            annualRainfall:
+              operationId: controller.get_basin_annual_rainfall
+              parameters:
+                basinId: $response.body#/basinId
+            allAnnualRainfalls:
+                operationId: controller.get_all_year_annual_rainfall
+                parameters:
+                  basinId: $response.body#/basinId
+  /stationsInBasin/{basinId}:
+    parameters:
+    - name: basinId
+      in: path
+      required: true
+      schema:
+        type : integer
+    get:
+      summary: Returns a list of stations located within the specified basin.
+      operationId: controller.get_stations_in_basin
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Station'
+  /stations/{stationId}:
+    parameters:
+    - name: stationId
+      in: path
+      required: true
+      schema:
+        type : integer
+    get:
+      summary: Returns complete details of the specified station
+      operationId: controller.get_station_details
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+          links:
+            basin:
+              operationId: controller.get_basin_details
+              parameters:
+                basinId: $response.body#/basinId
+  /basins/{basinId}/annualRainfalls/{year}:
+    parameters:
+    - name: basinId
+      in: path
+      required: true
+      schema:
+        type : integer
+    - name: year
+      in: path
+      required: true
+      schema:
+        type : integer
+    get:
+      summary: Returns total annual rainfall for the specified basin in the specified year
+      operationId: controller.get_basin_annual_rainfall
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: number
+  /basins/{basinId}/monthlyAverage:
+    parameters:
+    - name: basinId
+      in: path
+      required: true
+      schema:
+        type : integer
+    get:
+      summary: Returns monthly average rainfall for the specified basin across all available years
+      operationId: controller.get_basin_monthly_average
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MonthlyAverage'
+  /basins/{basinId}/allAnnualRainfalls:
+    parameters:
+    - name: basinId
+      in: path
+      required: true
+      schema:
+        type : integer
+    get:
+      summary: Returns a list of annual rainfalls in all available years for a specified basin
+      operationId: controller.get_all_year_annual_rainfall
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AnnualRainfall'
+
+components:
+  schemas:
+    Basin:
+      type: object
+      properties:
+        basinId:
+          type: integer
+        name:
+          type: string
+        area:
+          type: number
+          description: Total basin area in sq.km
+    Station:
+      type: object
+      properties:
+        stationId:
+          type: integer
+        basinId:
+          type: integer
+        name:
+          type: string
+        lat:
+          type: number
+          description: Latitude
+        lon:
+          type: number
+          description: Longitude
+    AnnualRainfall:
+      type: object
+      properties:
+        year:
+          type: integer
+        amount:
+          type: number
+          description: Rainfall amount in mm
+    MonthlyAverage:
+      type: object
+      properties:
+        month:
+          type: string
+          description: Shortened month name
+        monthNo:
+          type: integer
+          description: Month number (1-12)
+        amount:
+          type: number
+          description: Rainfall amount in mm

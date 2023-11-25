@@ -18,7 +18,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LatestTemp'
-  /lastest/pm25:
+  /latest/pm25:
     get: 
       summary: Return latest average pm2.5 from all source
       operationId: controller.latest_average_pm25
@@ -29,7 +29,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LatestPm25'
-
+  /latest/sound:
+    get:
+      summary: Return latest average sound from all source
+      operationId: controller.latest_average_sound
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LatestSound'
+  /latest/count:
+    get:
+      summary: Return latest count from all source
+      operationId: controller.latest_count
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LatestCount'
+  /latest/hum:
+    get:
+      summary: Return latest average humidity from all source
+      operationId: controller.latest_average_hum
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LatestHum'
 components:
   schemas:
     LatestTemp:
@@ -57,4 +89,43 @@ components:
         hour:
           type: integer
         averagePm25:
+          type: number
+    LatestSound:
+      type: object
+      properties:
+        day:
+          type: integer
+        month:
+          type: integer
+        year:
+          type: integer
+        hour:
+          type: integer
+        averageSound:
+          type: number
+    LatestCount:
+      type: object
+      properties:
+        day:
+          type: integer
+        month:
+          type: integer
+        year:
+          type: integer
+        hour:
+          type: integer
+        Count:
+          type: number
+    LatestHum:
+      type: object
+      properties:
+        day:
+          type: integer
+        month:
+          type: integer
+        year:
+          type: integer
+        hour:
+          type: integer
+        averageHumudity:
           type: number

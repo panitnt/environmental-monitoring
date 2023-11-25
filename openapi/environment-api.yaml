@@ -1,145 +1,67 @@
 openapi: 3.0.0
 info:
   title: Environment Monitoring API
-  description:
+  description: |
     This API ...
   version: 1.0.0
 servers:
 - url: /envi-api/v1
 paths:
-  /latest/temp:
+  /latest/{param}:
     get:
-      summary: Return latest average temperature from all source
-      operationId: controller.latest_average_temperature
+      summary: Return latest average all params from all source
+      operationId: controller.latest_average
       responses:
-        200:
+        '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LatestTemp'
-  /latest/pm25:
-    get: 
-      summary: Return latest average pm2.5 from all source
-      operationId: controller.latest_average_pm25
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LatestPm25'
-  /latest/sound:
+                $ref: '#/components/schemas/Latest'
+    parameters:
+    - name: param
+      in: path
+      required: true
+      schema:
+        type: string
+  /all/avg/{param}:
     get:
-      summary: Return latest average sound from all source
-      operationId: controller.latest_average_sound
+      summary: Return all average params from all source
+      operationId: controller.all_average
       responses:
-        200:
+        '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LatestSound'
-  /latest/count:
-    get:
-      summary: Return latest count from all source
-      operationId: controller.latest_count
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LatestCount'
-  /latest/hum:
-    get:
-      summary: Return latest average humidity from all source
-      operationId: controller.latest_average_hum
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LatestHum'
-
-  /all/avg/temp:
-    get:
-      summary: Return all average temperature from all source
-      operationId: controller.all_average_temp
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AllAvgtemp'
-  /all/avg/pm25:
-    get:
-      summary: Return all average dust from all source
-      operationId: controller.all_average_pm25
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AllAvgPm25'
-  /all/avg/sound:
-    get:
-      summary: Return all average sound from all source
-      operationId: controller.all_average_sound
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AllAvgSound'
-  /all/avg/count:
-    get:
-      summary: Return all human count from all source
-      operationId: controller.all_average_count
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AllAvgCount'
-  /all/avg/hum:
-    get:
-      summary: Return all average humidity all source
-      operationId: controller.all_average_hum
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AllAvgHum'
+                $ref: '#/components/schemas/AllAvg'
+    parameters:
+    - name: param
+      in: path
+      required: true
+      schema:
+        type: string
   /time/avg/{source}:
+    get:
+      summary: Return average value in hours of all params from the source
+      operationId: controller.average_value_by_source
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceTimeAvg'
     parameters:
     - name: source
       in: path
       required: true
       schema:
         type: string
-    get:
-      summary: Return average value in hours of all params from the source
-      operationId: controller.average_value_by_source
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SourceTimeAvg'
-
 
 components:
   schemas:
-    LatestTemp:
+    Latest:
       type: object
       properties:
         day:
@@ -152,111 +74,7 @@ components:
           type: integer
         averageTemp:
           type: number
-    LatestPm25:
-      type: object
-      properties:
-        day:
-          type: integer
-        month:
-          type: integer
-        year:
-          type: integer
-        hour:
-          type: integer
-        averagePm25:
-          type: number
-    LatestSound:
-      type: object
-      properties:
-        day:
-          type: integer
-        month:
-          type: integer
-        year:
-          type: integer
-        hour:
-          type: integer
-        averageSound:
-          type: number
-    LatestCount:
-      type: object
-      properties:
-        day:
-          type: integer
-        month:
-          type: integer
-        year:
-          type: integer
-        hour:
-          type: integer
-        Count:
-          type: number
-    LatestHum:
-      type: object
-      properties:
-        day:
-          type: integer
-        month:
-          type: integer
-        year:
-          type: integer
-        hour:
-          type: integer
-        averageHumudity:
-          type: number
-    AllAvgtemp:
-      type: object
-      properties:
-        day:
-          type: integer
-        month:
-          type: integer
-        year:
-          type: integer
-        hour:
-          type: integer
-        averageTemp:
-          type: number
-    AllAvgPm25:
-      type: object
-      properties:
-        day:
-          type: integer
-        month:
-          type: integer
-        year:
-          type: integer
-        hour:
-          type: integer
-        averagePm25:
-          type: number
-    AllAvgSound:
-      type: object
-      properties:
-        day:
-          type: integer
-        month:
-          type: integer
-        year:
-          type: integer
-        hour:
-          type: integer
-        averageSound:
-          type: number
-    AllAvgCount:
-      type: object
-      properties:
-        day:
-          type: integer
-        month:
-          type: integer
-        year:
-          type: integer
-        hour:
-          type: integer
-        averageCount:
-          type: number
-    AllAvgHum:
+    AllAvg:
       type: object
       properties:
         day:

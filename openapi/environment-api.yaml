@@ -3,35 +3,35 @@ info:
   title: Environment Monitoring API
   description:
     This API ...
-  version: 2.0.0
+  version: 1.0.0
 servers:
-  - url: http://127.0.0.1:8080/envi-api/v1
+- url: /envi-api/v1
 paths:
   /latest/temp:
     get:
       summary: Return latest average temperature from all source
       operationId: controller.latest_average_temperature
-      response:
+      responses:
         200:
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Basin'
+                $ref: '#/components/schemas/LatestTemp'
   /lastest/pm25:
     get: 
       summary: Return latest average pm2.5 from all source
       operationId: controller.latest_average_pm25
-      response:
+      responses:
         200:
           description: Success
           content:
             application/json:
               schema:
-                type: 
+                $ref: '#/components/schemas/LatestPm25'
 
-component:
-  schema:
+components:
+  schemas:
     LatestTemp:
       type: object
       properties:
@@ -45,7 +45,7 @@ component:
           type: integer
         averageTemp:
           type: number
-    LastestPm25:
+    LatestPm25:
       type: object
       properties:
         day:

@@ -46,38 +46,41 @@ def latest_average(param):
             ORDER BY year,month, day,hour  
             DESC LIMIT 1
             """,[day_format,param])
-        result = [models.Latest(*row) for row in cs.fetchall()]
-        return result
+        result = cs.fetchone()
+    if result:
+        return models.Latest(*result)
+    else:
+        abort(404)
     
 def all_average(param):
     day_format = '%d'
     if param == 'humcount':
         with pool.connection() as conn, conn.cursor() as cs:
             cs.execute("""
-                    SELECT CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, 
-                        MONTH(ts) as month, 
-                        YEAR(ts) as year, 
-                        HOUR(ts) as hour, 
-                        SUM(value) as value
-                    FROM `main` 
-                    WHERE param=%s 
-                    GROUP BY year, month,day,hour ORDER BY year,month, day,hour  
-                    DESC
-                """,[day_format,param])
+            SELECT CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, 
+                MONTH(ts) as month, 
+                YEAR(ts) as year, 
+                HOUR(ts) as hour, 
+                SUM(value) as value
+            FROM `main` 
+            WHERE param=%s 
+            GROUP BY year, month,day,hour ORDER BY year,month, day,hour  
+            DESC
+            """,[day_format,param])
             result = [models.AllAvg(*row) for row in cs.fetchall()]
             return result
     with pool.connection() as conn, conn.cursor() as cs:
         cs.execute("""
-                SELECT CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, 
-                    MONTH(ts) as month, 
-                    YEAR(ts) as year, 
-                    HOUR(ts) as hour, 
-                    AVG(value) as value
-                FROM `main` 
-                WHERE param=%s 
-                GROUP BY year, month,day,hour ORDER BY year,month, day,hour  
-                DESC
-            """,[day_format,param])
+        SELECT CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, 
+            MONTH(ts) as month, 
+            YEAR(ts) as year, 
+            HOUR(ts) as hour, 
+            AVG(value) as value
+        FROM `main` 
+        WHERE param=%s 
+        GROUP BY year, month,day,hour ORDER BY year,month, day,hour  
+        DESC
+        """,[day_format,param])
         result = [models.AllAvg(*row) for row in cs.fetchall()]
         return result
 

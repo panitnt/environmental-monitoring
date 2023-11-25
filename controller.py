@@ -55,7 +55,7 @@ def latest_average_sound():
         return result
     
 def latest_count():
-     with pool.connection() as conn, conn.cursor() as cs:
+    with pool.connection() as conn, conn.cursor() as cs:
         cs.execute("""
             SELECT DATE_FORMAT(ts, '%d') AS day, MONTH(ts) as month, YEAR(ts) as year, HOUR(ts) as hour, COUNT(value) 
             FROM `main`

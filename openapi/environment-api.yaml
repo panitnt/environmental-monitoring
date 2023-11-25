@@ -17,6 +17,17 @@ paths:
           content:
             application/json:
               schema:
+                $ref: '#/components/schemas/Basin'
+  /lastest/pm25:
+    get: 
+      summary: Return latest average pm2.5 from all source
+      operationId: controller.latest_average_pm25
+      response:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
                 type: 
 
 component:
@@ -24,4 +35,26 @@ component:
     LatestTemp:
       type: object
       properties:
-        da
+        day:
+          type: integer
+        month:
+          type: integer
+        year:
+          type: integer
+        hour:
+          type: integer
+        averageTemp:
+          type: number
+    LastestPm25:
+      type: object
+      properties:
+        day:
+          type: integer
+        month:
+          type: integer
+        year:
+          type: integer
+        hour:
+          type: integer
+        averagePm25:
+          type: number

@@ -2,10 +2,26 @@ openapi: 3.0.0
 info:
   title: Environment Monitoring API
   description:
-    This API provides historical rainfall data over upper Chaopraya river basin between 1987
-    and 2023.  Raw data provided by Thai Meteorological Department (TMD).
+    This API ...
   version: 2.0.0
 servers:
   - url: http://127.0.0.1:8080/envi-api/v1
 paths:
-  /
+  /latest/temp:
+    get:
+      summary: Return latest average temperature from all source
+      operationId: controller.latest_average_temperature
+      response:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: 
+
+component:
+  schema:
+    LatestTemp:
+      type: object
+      properties:
+        da

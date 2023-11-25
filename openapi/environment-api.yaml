@@ -72,7 +72,7 @@ components:
           type: integer
         hour:
           type: integer
-        averageTemp:
+        value:
           type: number
     AllAvg:
       type: object
@@ -85,7 +85,7 @@ components:
           type: integer
         hour:
           type: integer
-        averageHum:
+        value:
           type: number
     SourceTimeAvg:
       type: object

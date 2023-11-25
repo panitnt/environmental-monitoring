@@ -17,40 +17,60 @@ pool = PooledDB(creator=pymysql,
 
 def latest_average(param):
     day_format = '%d'
+    if param == 'humcount':
+        with pool.connection() as conn, conn.cursor() as cs:
+            cs.execute("""
+                SELECT CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, 
+                    MONTH(ts) as month, 
+                    YEAR(ts) as year, 
+                    HOUR(ts) as hour, 
+                    SUM(value) as value
+                FROM `main` 
+                WHERE param=%s
+                GROUP BY year, month,day,hour 
+                ORDER BY year,month, day,hour  
+                DESC LIMIT 1
+                """,[day_format,param])
+            result = [models.Latest(*row) for row in cs.fetchall()]
+            return result
     with pool.connection() as conn, conn.cursor() as cs:
         cs.execute("""
-            SELECT DATE_FORMAT(ts, '%d') AS day, MONTH(ts) as month, YEAR(ts) as year, HOUR(ts) as hour, AVG(value) 
+            SELECT CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, 
+                MONTH(ts) as month, 
+                YEAR(ts) as year, 
+                HOUR(ts) as hour, 
+                AVG(value) as value
             FROM `main` 
             WHERE param=%s
             GROUP BY year, month,day,hour 
             ORDER BY year,month, day,hour  
             DESC LIMIT 1
             """,[day_format,param])
-        result = [models.LatestTemp(*row) for row in cs.fetchall()]
+        result = [models.Latest(*row) for row in cs.fetchall()]
         return result
     
 def all_average(param):
     day_format = '%d'
     with pool.connection() as conn, conn.cursor() as cs:
         cs.execute("""
-                SELECT DATE_FORMAT(ts, '%d') AS day, 
-                   MONTH(ts) as month, 
-                   YEAR(ts) as year, 
-                   HOUR(ts) as hour, 
-                   AVG(value) 
-                   FROM `main` 
-                   WHERE param=%s 
-                   GROUP BY year, month,day,hour ORDER BY year,month, day,hour  
-                   DESC
+                SELECT CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, 
+                    MONTH(ts) as month, 
+                    YEAR(ts) as year, 
+                    HOUR(ts) as hour, 
+                    AVG(value) as value
+                FROM `main` 
+                WHERE param=%s 
+                GROUP BY year, month,day,hour ORDER BY year,month, day,hour  
+                DESC
             """,[day_format,param])
-        result = [models.LatestTemp(*row) for row in cs.fetchall()]
+        result = [models.AllAvg(*row) for row in cs.fetchall()]
         return result
 
 def average_value_by_source(source):
     day_format = '%d'
     with pool.connection() as conn, conn.cursor() as cs:
         cs.execute("""
-            SELECT DATE_FORMAT(ts, %s) AS day,
+            SELECT CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day,
                 MONTH(ts) as month, 
                 YEAR(ts) as year, 
                 HOUR(ts) as hour, 

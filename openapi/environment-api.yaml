@@ -118,7 +118,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AllAvgHum'
-
+  /time/avg/{source}:
+    parameters:
+    - name: source
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Return average value in hours of all params from the source
+      operationId: controller.average_value_by_source
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceTimeAvg'
 
 
 components:
@@ -252,4 +268,19 @@ components:
         hour:
           type: integer
         averageHum:
+          type: number
+    SourceTimeAvg:
+      type: object
+      properties:
+        day:
+          type: integer
+        month:
+          type: integer
+        year:
+          type: integer
+        hour:
+          type: integer
+        param:
+          type: string
+        value:
           type: number

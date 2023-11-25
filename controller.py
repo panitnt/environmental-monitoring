@@ -97,6 +97,7 @@ def all_average_temp():
             """)
         result = [models.LatestTemp(*row) for row in cs.fetchall()]
         return result
+
 def all_average_pm25():
     with pool.connection() as conn, conn.cursor() as cs:
         cs.execute("""
@@ -112,6 +113,7 @@ def all_average_pm25():
             """)
         result = [models.LatestTemp(*row) for row in cs.fetchall()]
         return result
+
 def all_average_sound():
     with pool.connection() as conn, conn.cursor() as cs:
         cs.execute("""
@@ -127,6 +129,7 @@ def all_average_sound():
             """)
         result = [models.LatestTemp(*row) for row in cs.fetchall()]
         return result
+
 def all_average_count():
     with pool.connection() as conn, conn.cursor() as cs:
         cs.execute("""
@@ -142,6 +145,7 @@ def all_average_count():
             """)
         result = [models.LatestTemp(*row) for row in cs.fetchall()]
         return result
+
 def all_average_hum():
     with pool.connection() as conn, conn.cursor() as cs:
         cs.execute("""
@@ -156,4 +160,22 @@ def all_average_hum():
                    DESC
             """)
         result = [models.LatestTemp(*row) for row in cs.fetchall()]
+        return result
+
+def average_value_by_source(source):
+    day_format = '%d'
+    with pool.connection() as conn, conn.cursor() as cs:
+        cs.execute("""
+            SELECT DATE_FORMAT(ts, %s) AS day,
+                MONTH(ts) as month, 
+                YEAR(ts) as year, 
+                HOUR(ts) as hour, 
+                param, 
+                AVG(value) as value
+            FROM `main`
+            WHERE source=%s
+            GROUP BY param, year, month, day, hour
+            ORDER BY param, year, month, day, hour ASC
+        """, [day_format, source])
+        result = [models.SourceTimeAvg(*row) for row in cs.fetchall()]
         return result

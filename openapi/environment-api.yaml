@@ -62,6 +62,65 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LatestHum'
+
+  /all/avg/temp:
+    get:
+      summary: Return all average temperature from all source
+      operationId: controller.all_average_temp
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllAvgtemp'
+  /all/avg/pm25:
+    get:
+      summary: Return all average dust from all source
+      operationId: controller.all_average_pm25
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllAvgPm25'
+  /all/avg/sound:
+    get:
+      summary: Return all average sound from all source
+      operationId: controller.all_average_sound
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllAvgSound'
+  /all/avg/count:
+    get:
+      summary: Return all human count from all source
+      operationId: controller.all_average_count
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllAvgCount'
+  /all/avg/hum:
+    get:
+      summary: Return all average humidity all source
+      operationId: controller.all_average_hum
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllAvgHum'
+
+
+
 components:
   schemas:
     LatestTemp:
@@ -128,4 +187,69 @@ components:
         hour:
           type: integer
         averageHumudity:
+          type: number
+    AllAvgtemp:
+      type: object
+      properties:
+        day:
+          type: integer
+        month:
+          type: integer
+        year:
+          type: integer
+        hour:
+          type: integer
+        averageTemp:
+          type: number
+    AllAvgPm25:
+      type: object
+      properties:
+        day:
+          type: integer
+        month:
+          type: integer
+        year:
+          type: integer
+        hour:
+          type: integer
+        averagePm25:
+          type: number
+    AllAvgSound:
+      type: object
+      properties:
+        day:
+          type: integer
+        month:
+          type: integer
+        year:
+          type: integer
+        hour:
+          type: integer
+        averageSound:
+          type: number
+    AllAvgCount:
+      type: object
+      properties:
+        day:
+          type: integer
+        month:
+          type: integer
+        year:
+          type: integer
+        hour:
+          type: integer
+        averageCount:
+          type: number
+    AllAvgHum:
+      type: object
+      properties:
+        day:
+          type: integer
+        month:
+          type: integer
+        year:
+          type: integer
+        hour:
+          type: integer
+        averageHum:
           type: number

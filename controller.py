@@ -15,3 +15,13 @@ pool = PooledDB(creator=pymysql,
                 maxconnections=1,
                 blocking=True)
 
+def get_avg_temp():
+    with pool.connection() as conn, conn.cursor() as cs:
+        cs.execute("""
+            SELECT HOUR(ts), AVG(value) 
+            FROM `main` 
+            WHERE param = "temp" GROUP BY HOUR(ts) 
+            ORDER BY HOUR(ts) DESC
+            """, [])
+        # result = [models.Basin(*row) for row in cs.fetchall()]
+        # return result

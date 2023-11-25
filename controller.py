@@ -38,3 +38,79 @@ def latest_average_pm25():
             """)
         result = [models.LatestTemp(*row) for row in cs.fetchall()]
         return result
+    
+def all_average_temp():
+    with pool.connection() as conn, conn.cursor() as cs:
+        cs.execute("""
+                SELECT DATE_FORMAT(ts, '%d') AS day, 
+                   MONTH(ts) as month, 
+                   YEAR(ts) as year, 
+                   HOUR(ts) as hour, 
+                   AVG(value) 
+                   FROM `main` 
+                   WHERE param = "temp" 
+                   GROUP BY year, month,day,hour ORDER BY year,month, day,hour  
+                   DESC
+            """)
+        result = [models.LatestTemp(*row) for row in cs.fetchall()]
+        return result
+def all_average_pm25():
+    with pool.connection() as conn, conn.cursor() as cs:
+        cs.execute("""
+                SELECT DATE_FORMAT(ts, '%d') AS day, 
+                   MONTH(ts) as month, 
+                   YEAR(ts) as year, 
+                   HOUR(ts) as hour, 
+                   AVG(value) 
+                   FROM `main` 
+                   WHERE param = "pm25" 
+                   GROUP BY year, month,day,hour ORDER BY year,month, day,hour  
+                   DESC
+            """)
+        result = [models.LatestTemp(*row) for row in cs.fetchall()]
+        return result
+def all_average_sound():
+    with pool.connection() as conn, conn.cursor() as cs:
+        cs.execute("""
+                SELECT DATE_FORMAT(ts, '%d') AS day, 
+                   MONTH(ts) as month, 
+                   YEAR(ts) as year, 
+                   HOUR(ts) as hour, 
+                   AVG(value) 
+                   FROM `main` 
+                   WHERE param = "sound" 
+                   GROUP BY year, month,day,hour ORDER BY year,month, day,hour  
+                   DESC
+            """)
+        result = [models.LatestTemp(*row) for row in cs.fetchall()]
+        return result
+def all_average_count():
+    with pool.connection() as conn, conn.cursor() as cs:
+        cs.execute("""
+            SELECT DATE_FORMAT(ts, '%d') AS day, 
+                   MONTH(ts) as month, 
+                   YEAR(ts) as year, 
+                   HOUR(ts) as hour, 
+                   COUNT(value) 
+                   FROM `main` 
+                   WHERE param = "humcount"
+                    GROUP BY year, month,day,hour 
+                   ORDER BY year,month, day,hour  DESC
+            """)
+        result = [models.LatestTemp(*row) for row in cs.fetchall()]
+        return result
+def all_average_hum():
+    with pool.connection() as conn, conn.cursor() as cs:
+        cs.execute("""
+                SELECT DATE_FORMAT(ts, '%d') AS day, 
+                   MONTH(ts) as month, 
+                   YEAR(ts) as year, 
+                   HOUR(ts) as hour, 
+                   AVG(value) 
+                   FROM `main` 
+                   WHERE param = "hum" 
+                   GROUP BY year, month,day,hour ORDER BY year,month, day,hour  
+                   DESC
+            """)
+        result = [models.LatestTemp(*row) for row in cs.fetchall()]
+        return result

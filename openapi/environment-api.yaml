@@ -3,9 +3,9 @@ info:
   title: Environment Monitoring API
   description: 
     This API ...
-  version: 1.0.0
+  version: 2.0.0
 servers:
-- url: http://127.0.0.1:8080/envi-api/v1
+- url: http://127.0.0.1:8080/envi-api/v2
 paths:
   /latest/{param}:
     parameters:
@@ -23,7 +23,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Latest'
+                $ref: '#/components/schemas/AverageValue'
   /all/avg/{param}:
     parameters:
     - name: param
@@ -42,24 +42,11 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/AllAvg'
+                  $ref: '#/components/schemas/AverageValue'
 
 components:
   schemas:
-    Latest:
-      type: object
-      properties:
-        day:
-          type: integer
-        month:
-          type: integer
-        year:
-          type: integer
-        hour:
-          type: integer
-        value:
-          type: number
-    AllAvg:
+    AverageValue:
       type: object
       properties:
         day:

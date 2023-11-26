@@ -33,7 +33,7 @@ def latest_average(param):
                 """,[day_format,param])
             result = cs.fetchone()
         if result:
-            return models.Latest(*result)
+            return models.AverageValue(*result)
         else:
             abort(404)
     with pool.connection() as conn, conn.cursor() as cs:
@@ -51,7 +51,7 @@ def latest_average(param):
             """,[day_format,param])
         result = cs.fetchone()
     if result:
-        return models.Latest(*result)
+        return models.AverageValue(*result)
     else:
         abort(404)
     
@@ -70,7 +70,7 @@ def all_average(param):
             GROUP BY year, month,day,hour ORDER BY year,month, day,hour  
             DESC
             """,[day_format,param])
-            result = [models.AllAvg(*row) for row in cs.fetchall()]
+            result = [models.AverageValue(*row) for row in cs.fetchall()]
             return result
     with pool.connection() as conn, conn.cursor() as cs:
         cs.execute("""
@@ -84,5 +84,5 @@ def all_average(param):
         GROUP BY year, month,day,hour ORDER BY year,month, day,hour  
         DESC
         """,[day_format,param])
-        result = [models.AllAvg(*row) for row in cs.fetchall()]
+        result = [models.AverageValue(*row) for row in cs.fetchall()]
         return result

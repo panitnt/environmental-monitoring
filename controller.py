@@ -86,3 +86,30 @@ def all_average(param):
         """,[day_format,param])
         result = [models.AverageValue(*row) for row in cs.fetchall()]
         return result
+
+def param_separate_source(param):
+    with pool.connection() as conn, conn.cursor() as cs:
+        cs.execute("""
+        SELECT source
+        FROM `main` 
+        WHERE param=%s 
+        GROUP BY source
+        """,[param])
+        result = [models.SourceParam(*row) for row in cs.fetchall()]
+        return result
+    
+def hour_average_value(source, param):
+    with pool.connection() as conn, conn.cursor() as cs:
+        cs.execute("""
+        SELECT CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, 
+            MONTH(ts) as month, 
+            YEAR(ts) as year, 
+            HOUR(ts) as hour, 
+            AVG(value) as value
+        FROM `main` 
+        WHERE source=%s and param=%s 
+        GROUP BY year, month,day,hour ORDER BY year,month, day,hour  
+        DESC
+        """,[source,param])
+        result = [models.AverageValue(*row) for row in cs.fetchall()]
+        return result

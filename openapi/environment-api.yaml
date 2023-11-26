@@ -43,6 +43,55 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AverageValue'
+  /seperate/source/{param}:
+    parameters:
+    - name: param
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Return a list of param that separate source
+      operationId: controller.param_separate_source
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SourceParam'
+          links:
+            hourAverageValue:
+              operationId: controller.hour_average_value
+              parameters:
+                param: '$response.body#/param'
+
+  /all/avg/{param}/{source}/hour:
+    parameters:
+    - name: param
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: source
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Return 
+      operationId: controller.hour_average_value
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AverageValue'
 
 components:
   schemas:
@@ -59,3 +108,8 @@ components:
           type: integer
         value:
           type: number
+    SourceParam:
+      type: object
+      properties:
+        source:
+          type: string

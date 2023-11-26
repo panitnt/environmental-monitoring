@@ -31,8 +31,11 @@ def latest_average(param):
                 ORDER BY year,month, day,hour  
                 DESC LIMIT 1
                 """,[day_format,param])
-            result = [models.Latest(*row) for row in cs.fetchall()]
-            return result
+            result = cs.fetchone()
+        if result:
+            return models.Latest(*result)
+        else:
+            abort(404)
     with pool.connection() as conn, conn.cursor() as cs:
         cs.execute("""
             SELECT CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, 
@@ -82,22 +85,4 @@ def all_average(param):
         DESC
         """,[day_format,param])
         result = [models.AllAvg(*row) for row in cs.fetchall()]
-        return result
-
-def average_value_by_source(source):
-    day_format = '%d'
-    with pool.connection() as conn, conn.cursor() as cs:
-        cs.execute("""
-            SELECT CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day,
-                MONTH(ts) as month, 
-                YEAR(ts) as year, 
-                HOUR(ts) as hour, 
-                param, 
-                AVG(value) as value
-            FROM `main`
-            WHERE source=%s
-            GROUP BY param, year, month, day, hour
-            ORDER BY param, year, month, day, hour ASC
-        """, [day_format, source])
-        result = [models.SourceTimeAvg(*row) for row in cs.fetchall()]
         return result

@@ -1,63 +1,48 @@
 openapi: 3.0.0
 info:
   title: Environment Monitoring API
-  description: |
+  description: 
     This API ...
   version: 1.0.0
 servers:
-- url: /envi-api/v1
+- url: http://127.0.0.1:8080/envi-api/v1
 paths:
   /latest/{param}:
+    parameters:
+    - name: param
+      in: path
+      required: true
+      schema:
+        type: string
     get:
       summary: Return latest average all params from all source
       operationId: controller.latest_average
       responses:
-        '200':
+        200:
           description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Latest'
+  /all/avg/{param}:
     parameters:
     - name: param
       in: path
       required: true
       schema:
         type: string
-  /all/avg/{param}:
     get:
       summary: Return all average params from all source
       operationId: controller.all_average
       responses:
-        '200':
+        200:
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AllAvg'
-    parameters:
-    - name: param
-      in: path
-      required: true
-      schema:
-        type: string
-  /time/avg/{source}:
-    get:
-      summary: Return average value in hours of all params from the source
-      operationId: controller.average_value_by_source
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SourceTimeAvg'
-    parameters:
-    - name: source
-      in: path
-      required: true
-      schema:
-        type: string
+                type: array
+                items:
+                  $ref: '#/components/schemas/AllAvg'
 
 components:
   schemas:
@@ -85,20 +70,5 @@ components:
           type: integer
         hour:
           type: integer
-        value:
-          type: number
-    SourceTimeAvg:
-      type: object
-      properties:
-        day:
-          type: integer
-        month:
-          type: integer
-        year:
-          type: integer
-        hour:
-          type: integer
-        param:
-          type: string
         value:
           type: number

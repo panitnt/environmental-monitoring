@@ -37,9 +37,6 @@
                     {
                         separateHour(param: "pm25"){
                             source
-                            day
-                            month
-                            year
                             hour
                             value
                         }
@@ -105,9 +102,6 @@
                     {
                         separateHour(param: "sound"){
                             source
-                            day
-                            month
-                            year
                             hour
                             value
                         }
@@ -120,7 +114,7 @@
 
             var sound_x = sound.filter((dt) => dt.source === "soundsensor").map((dt) => dt.hour)
             var sound_y = sound.filter((dt) => dt.source === "soundsensor").map((dt) => dt.value)
-            console.log(sound_x, sound_y);
+            // console.log(sound_x, sound_y);
 
             var data = [
                 {
@@ -156,9 +150,6 @@
                     {
                         separateHour(param: "temp"){
                             source
-                            day
-                            month
-                            year
                             hour
                             value
                         }
@@ -224,9 +215,6 @@
                     {
                         separateHour(param: "humcount"){
                             source
-                            day
-                            month
-                            year
                             hour
                             value
                         }

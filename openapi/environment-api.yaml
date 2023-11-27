@@ -111,12 +111,6 @@ components:
       properties:
         source:
           type: string
-        day:
-          type: integer
-        month:
-          type: integer
-        year:
-          type: integer
         hour:
           type: integer
         value:

@@ -102,6 +102,8 @@ def hour_average_value(param):
     if param == 'humcount':
         with pool.connection() as conn, conn.cursor() as cs:
             cs.execute("""
+            SELECT source, hour, AVG(value) as value
+            FROM (
             SELECT source,
                 CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, 
                 MONTH(ts) as month, 
@@ -112,11 +114,15 @@ def hour_average_value(param):
             WHERE param=%s 
             GROUP BY source, year, month,day,hour 
             ORDER BY source, year,month, day,hour  
+            ) group_date
+            GROUP BY source, hour
             """,['%d',param])
             result = [models.HourAverageValue(*row) for row in cs.fetchall()]
             return result
     with pool.connection() as conn, conn.cursor() as cs:
         cs.execute("""
+        SELECT source, hour, AVG(value) as value
+        FROM (
         SELECT source,
             CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, 
             MONTH(ts) as month, 
@@ -127,6 +133,8 @@ def hour_average_value(param):
         WHERE param=%s 
         GROUP BY source, year, month,day,hour 
         ORDER BY source, year,month, day,hour  
+        ) group_date
+        GROUP BY source, hour
         """,['%d',param])
         result = [models.HourAverageValue(*row) for row in cs.fetchall()]
         return result

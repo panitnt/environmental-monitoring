@@ -90,7 +90,7 @@ def all_average(param):
 def param_separate_source(param):
     with pool.connection() as conn, conn.cursor() as cs:
         cs.execute("""
-        SELECT source
+        SELECT source, AVG(lat) as lat, AVG(lon) as lon
         FROM `main` 
         WHERE param=%s 
         GROUP BY source
@@ -98,18 +98,35 @@ def param_separate_source(param):
         result = [models.SourceParam(*row) for row in cs.fetchall()]
         return result
     
-def hour_average_value(source, param):
+def hour_average_value(param):
+    if param == 'humcount':
+        with pool.connection() as conn, conn.cursor() as cs:
+            cs.execute("""
+            SELECT source,
+                CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, 
+                MONTH(ts) as month, 
+                YEAR(ts) as year, 
+                HOUR(ts) as hour, 
+                SUM(value) as value
+            FROM `main` 
+            WHERE param=%s 
+            GROUP BY source, year, month,day,hour 
+            ORDER BY source, year,month, day,hour  
+            """,['%d',param])
+            result = [models.HourAverageValue(*row) for row in cs.fetchall()]
+            return result
     with pool.connection() as conn, conn.cursor() as cs:
         cs.execute("""
-        SELECT CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, 
+        SELECT source,
+            CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, 
             MONTH(ts) as month, 
             YEAR(ts) as year, 
             HOUR(ts) as hour, 
             AVG(value) as value
         FROM `main` 
-        WHERE source=%s and param=%s 
-        GROUP BY year, month,day,hour ORDER BY year,month, day,hour  
-        DESC
-        """,[source,param])
-        result = [models.AverageValue(*row) for row in cs.fetchall()]
+        WHERE param=%s 
+        GROUP BY source, year, month,day,hour 
+        ORDER BY source, year,month, day,hour  
+        """,['%d',param])
+        result = [models.HourAverageValue(*row) for row in cs.fetchall()]
         return result

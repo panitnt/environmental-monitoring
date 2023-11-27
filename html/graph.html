@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <title>Graph</title>
 </head>
+
 <body>
     <nav>
         <ul>
@@ -13,5 +16,258 @@
             <li><a href="graph.html">Graph</a></li>
         </ul>
     </nav>
+    <div class="col-2">
+        <div id="chart1" style="height:45vh"></div>
+        <div id="chart2" style="height:45vh"></div>
+    </div>
+    <div class="col-2">
+        <div id="chart3" style="height:45vh"></div>
+        <div id="chart4" style="height:45vh"></div>
+    </div>
+    <script>
+        async function pm25Chart() {
+            var resp = await fetch('http://localhost:3000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+                    {
+                        separateHour(param: "pm25"){
+                            source
+                            day
+                            month
+                            year
+                            hour
+                            value
+                        }
+                    }`
+                })
+            });
+            var json = await resp.json();
+            var table = json.data;
+            var pm25 = table.separateHour
+
+            var pm25_av_x = pm25.filter((dt) => dt.source === "apiairvisual").map((dt) => dt.hour)
+            var pm25_av_y = pm25.filter((dt) => dt.source === "apiairvisual").map((dt) => dt.value)
+
+            var pm25_wq_x = pm25.filter((dt) => dt.source === "apiwqi").map((dt) => dt.hour)
+            var pm25_wq_y = pm25.filter((dt) => dt.source === "apiwqi").map((dt) => dt.value)
+
+            var pm25_dust_x = pm25.filter((dt) => dt.source === "dustsensor").map((dt) => dt.hour)
+            var pm25_dust_y = pm25.filter((dt) => dt.source === "dustsensor").map((dt) => dt.value)
+
+            var data = [
+                {
+                    x: pm25_av_x.map((row) => row),
+                    y: pm25_av_y.map((row) => row),
+                    type: 'line',
+                    name: 'airvisual'
+                },
+                {
+                    x: pm25_wq_x.map((row) => row),
+                    y: pm25_wq_y.map((row) => row),
+                    type: 'line',
+                    name: 'wqi'
+                },
+                {
+                    x: pm25_dust_x.map((row) => row),
+                    y: pm25_dust_y.map((row) => row),
+                    type: 'line',
+                    name: 'dust sensor'
+                },
+            ]
+            var layout = {
+                title: 'Average PM2.5 In a day',
+                xaxis: {
+                    title: 'Hour',
+                    range: [0, 24]
+                },
+                yaxis: {
+                    title: 'pm25',
+                    range: [0, 300]
+                }
+            };
+            var config = { responsive: true };
+            Plotly.newPlot("chart1", data, layout, config);
+        }
+        async function soundChart() {
+            var resp = await fetch('http://localhost:3000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+                    {
+                        separateHour(param: "sound"){
+                            source
+                            day
+                            month
+                            year
+                            hour
+                            value
+                        }
+                    }`
+                })
+            });
+            var json = await resp.json();
+            var table = json.data;
+            var sound = table.separateHour
+
+            var sound_x = sound.filter((dt) => dt.source === "soundsensor").map((dt) => dt.hour)
+            var sound_y = sound.filter((dt) => dt.source === "soundsensor").map((dt) => dt.value)
+            console.log(sound_x, sound_y);
+
+            var data = [
+                {
+                    x: sound_x.map((row) => row),
+                    y: sound_y.map((row) => row),
+                    type: 'line',
+                    name: 'sound sensor'
+                },
+            ]
+            var layout = {
+                title: 'Average Sound',
+                xaxis: {
+                    title: 'Hour',
+                    range: [0, 24]
+                },
+                yaxis: {
+                    title: 'Sound',
+                    range: [0, 5000]
+                }
+            };
+            var config = { responsive: true };
+            Plotly.newPlot("chart4", data, layout, config);
+        }
+        async function tempChart() {
+            var resp = await fetch('http://localhost:3000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+                    {
+                        separateHour(param: "temp"){
+                            source
+                            day
+                            month
+                            year
+                            hour
+                            value
+                        }
+                    }`
+                })
+            });
+            var json = await resp.json();
+            var table = json.data;
+            var temp = table.separateHour
+
+            var temp_av_x = temp.filter((dt) => dt.source === "apiairvisual").map((dt) => dt.hour)
+            var temp_av_y = temp.filter((dt) => dt.source === "apiairvisual").map((dt) => dt.value)
+
+            var temp_ao_x = temp.filter((dt) => dt.source === "apiopenweather").map((dt) => dt.hour)
+            var temp_ao_y = temp.filter((dt) => dt.source === "apiopenweather").map((dt) => dt.value)
+
+            var temp_kb_x = temp.filter((dt) => dt.source === "kidbright").map((dt) => dt.hour)
+            var temp_kb_y = temp.filter((dt) => dt.source === "kidbright").map((dt) => dt.value)
+
+            var data = [
+                {
+                    x: temp_av_x.map((row) => row),
+                    y: temp_av_y.map((row) => row),
+                    type: 'line',
+                    name: 'airvisualr'
+                },
+                {
+                    x: temp_ao_x.map((row) => row),
+                    y: temp_ao_y.map((row) => row),
+                    type: 'line',
+                    name: 'openweather'
+                },
+                {
+                    x: temp_kb_x.map((row) => row),
+                    y: temp_kb_y.map((row) => row),
+                    type: 'line',
+                    name: 'kidbright'
+                },
+            ]
+            var layout = {
+                title: 'Average Temperature',
+                xaxis: {
+                    title: 'Hour',
+                    range: [0, 24]
+                },
+                yaxis: {
+                    title: 'Temp',
+                    range: [0, 50]
+                }
+            };
+            var config = { responsive: true };
+            Plotly.newPlot("chart3", data, layout, config);
+        }
+        async function humanChart() {
+            var resp = await fetch('http://localhost:3000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+                    {
+                        separateHour(param: "humcount"){
+                            source
+                            day
+                            month
+                            year
+                            hour
+                            value
+                        }
+                    }`
+                })
+            });
+            var json = await resp.json();
+            var table = json.data;
+            var human = table.separateHour
+
+            var human_x = human.filter((dt) => dt.source === "infraredsensor").map((dt) => dt.hour)
+            var human_y = human.filter((dt) => dt.source === "infraredsensor").map((dt) => dt.value)
+
+
+            var data = [
+                {
+                    x: human_x.map((row) => row),
+                    y: human_y.map((row) => row),
+                    type: 'line',
+                    name: 'infrared sensor',
+                },
+            ]
+            var layout = {
+                title: 'Count Human',
+                xaxis: {
+                    title: 'Hour',
+                    range: [0, 24]
+                },
+                yaxis: {
+                    title: 'Count',
+                    // range: [0, 50]
+                }
+            };
+            var config = { responsive: true };
+            Plotly.newPlot("chart2", data, layout, config);
+        }
+        pm25Chart();
+        soundChart();
+        tempChart();
+        humanChart();
+    </script>
 </body>
+
 </html>

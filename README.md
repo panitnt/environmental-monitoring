@@ -25,3 +25,7 @@
   ```
   openapi-to-graphql openapi/environment-api.yaml
   ```
+- For GraphQL when running HTML
+  ```
+  openapi-to-graphql --cors openapi/environment-api.yaml
+  ```

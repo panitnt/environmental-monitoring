@@ -14,4 +14,198 @@
         </ul>
     </nav>
 </body>
+
+<script>
+            async function pm25Latest() {
+            var resp = await fetch('http://localhost:3000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+                    {
+                    averageValue(param: "pm25"){
+                    day
+                    hour
+                    month
+                    value
+                    year
+                    }
+                    }
+                                        `
+                })
+            });
+            var json = await resp.json();
+            var table = json.data.averageValue;
+            var pm25value = table.value;
+            var pm25day = table.day;
+            var pm25hour =table.hour;
+            var pm25month = table.month;
+            var pm25year = table.year;
+            console.log(table.day)
+            document.getElementById('pm25Value').innerText = `PM25 Value: ${pm25value}`;
+            document.getElementById('pm25Day').innerText = `${pm25day} -`;
+            document.getElementById('pm25hour').innerText = `${pm25hour}:00 `;
+            document.getElementById('pm25month').innerText = pm25month;
+            document.getElementById('pm25year').innerText = `- ${pm25year}`;
+
+        }
+        async function tempLatest() {
+            var resp = await fetch('http://localhost:3000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+                    {
+                    averageValue(param: "temp"){
+                    day
+                    hour
+                    month
+                    value
+                    year
+                    }
+                    }
+                                        `
+                })
+            });
+            var json = await resp.json();
+            var table = json.data.averageValue;
+            var tempvalue = table.value;
+            var tempday = table.day;
+            var temphour =table.hour;
+            var tempmonth = table.month;
+            var tempyear = table.year;
+
+            document.getElementById('tempvalue').innerText = tempvalue;
+            document.getElementById('tempday').innerText = `${tempday} -`;
+            document.getElementById('temphour').innerText = `${temphour}:00 `;
+            document.getElementById('tempmonth').innerText = tempmonth;
+            document.getElementById('tempyear').innerText = `- ${tempyear}`;
+        }
+        async function countLatest() {
+            var resp = await fetch('http://localhost:3000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+                    {
+                    averageValue(param: "humcount"){
+                    day
+                    hour
+                    month
+                    value
+                    year
+                    }
+                    }
+                                        `
+                })
+            });
+            var json = await resp.json();
+            var table = json.data.averageValue;
+            var countvalue = table.value;
+            var countday = table.day;
+            var counthour =table.hour;
+            var countmonth = table.month;
+            var countyear = table.year;
+            document.getElementById('countvalue').innerText = `${countvalue} People`;
+            document.getElementById('countday').innerText = `${countday} -`;
+            document.getElementById('counthour').innerText = `${counthour}:00 `;
+            document.getElementById('countmonth').innerText = countmonth;
+            document.getElementById('countyear').innerText = `- ${countyear}`;
+        }
+        async function soundLatest() {
+            var resp = await fetch('http://localhost:3000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+                    {
+                    averageValue(param: "sound"){
+                    day
+                    hour
+                    month
+                    value
+                    year
+                    }
+                    }
+                                        `
+                })
+            });
+            var json = await resp.json();
+            var table = json.data.averageValue;
+            var soundvalue = table.value;
+            var soundday = table.day;
+            var soundhour =table.hour;
+            var soundmonth = table.month;
+            var soundyear = table.year;
+            document.getElementById('soundvalue').innerText = soundvalue;
+            document.getElementById('soundday').innerText = `${soundday} -`;
+            document.getElementById('soundhour').innerText = `${soundhour}:00`;
+            document.getElementById('soundmonth').innerText = soundmonth;
+            document.getElementById('soundyear').innerText = `- ${soundyear}`;
+        }
+        pm25Latest()
+        tempLatest()
+        soundLatest()
+        countLatest()
+</script>
+<div class="row">
+    <div class="container">
+    <div class="header">Temperature</div>
+    <div id="tempvalue" class="value"></div>
+    <div class="card">
+        <div id="temphour">Hour</div>
+        <div id="tempday">Day</div>
+        <div id="tempmonth">Month</div>
+        <div id="tempyear">Year</div>
+    </div>
+</div>
+<div class="container">
+    <div class="header">PM2.5</div>
+    <div id="pm25Value" class="value"></div>
+    <div class="card" >
+        <div id="pm25hour">Hour</div>
+        <div id="pm25Day">Day</div>
+        <div id="pm25month">Month</div>
+        <div id="pm25year">Year</div>
+    </div>
+</div></div>
+
+<div class="row">
+    <div class="container">
+        <div class="header">Count</div>
+        <div id="countvalue" class="value"></div>
+        <div class="card">
+
+            <div id="counthour">Hour</div>            
+            <div id="countday">Day</div>
+            <div id="countmonth">Month</div>
+            <div id="countyear">Year</div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="header">Sound</div>
+        <div id="soundvalue" class="value"></div>
+        <div class="card">
+            <div id="soundhour">Hour</div>
+            <div id="soundday">Day</div>
+            <div id="soundmonth">Month</div>
+            <div id="soundyear">Year</div>
+        </div>
+    </div>
+</div>
+
+
 </html>

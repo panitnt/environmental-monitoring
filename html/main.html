@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Latest</title>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 </head>
 <body>
     <nav>
@@ -45,7 +46,7 @@
             var pm25month = table.month;
             var pm25year = table.year;
             console.log(table.day)
-            document.getElementById('pm25Value').innerText = `PM25 Value: ${pm25value}`;
+            document.getElementById('pm25Value').innerText = `${pm25value}`;
             document.getElementById('pm25Day').innerText = `${pm25day} -`;
             document.getElementById('pm25hour').innerText = `${pm25hour}:00 `;
             document.getElementById('pm25month').innerText = pm25month;
@@ -81,7 +82,7 @@
             var tempmonth = table.month;
             var tempyear = table.year;
 
-            document.getElementById('tempvalue').innerText = tempvalue;
+            document.getElementById('tempvalue').innerText = tempvalue.toFixed(2);
             document.getElementById('tempday').innerText = `${tempday} -`;
             document.getElementById('temphour').innerText = `${temphour}:00 `;
             document.getElementById('tempmonth').innerText = tempmonth;
@@ -121,6 +122,76 @@
             document.getElementById('countmonth').innerText = countmonth;
             document.getElementById('countyear').innerText = `- ${countyear}`;
         }
+        async function humLatest() {
+            var resp = await fetch('http://localhost:3000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+                    {
+                    averageValue(param: "hum"){
+                    day
+                    hour
+                    month
+                    value
+                    year
+                    }
+                    }
+                                        `
+                })
+            });
+            var json = await resp.json();
+            var table = json.data.averageValue;
+            var humvalue = table.value.toFixed(2);
+            var humday = table.day;
+            var humhour =table.hour;
+            var hummonth = table.month;
+            var humyear = table.year;
+            console.log(table.day)
+            document.getElementById('humvalue').innerText = `${humvalue}`;
+            document.getElementById('humday').innerText = `${humday} -`;
+            document.getElementById('humhour').innerText = `${humhour}:00 `;
+            document.getElementById('hummonth').innerText = hummonth;
+            document.getElementById('humyear').innerText = `- ${humyear}`;
+        }
+        async function windLatest() {
+            var resp = await fetch('http://localhost:3000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+                    {
+                    averageValue(param: "wind"){
+                    day
+                    hour
+                    month
+                    value
+                    year
+                    }
+                    }
+                                        `
+                })
+            });
+            var json = await resp.json();
+            var table = json.data.averageValue;
+            var windvalue = table.value.toFixed(2);
+            var windday = table.day;
+            var windhour =table.hour;
+            var windmonth = table.month;
+            var windyear = table.year;
+            console.log(table.day)
+            document.getElementById('windvalue').innerText = `${windvalue}`;
+            document.getElementById('windday').innerText = `${windday} -`;
+            document.getElementById('windhour').innerText = `${windhour}:00 `;
+            document.getElementById('windmonth').innerText = windmonth;
+            document.getElementById('windyear').innerText = `- ${windyear}`;
+        }
         async function soundLatest() {
             var resp = await fetch('http://localhost:3000/graphql', {
                 method: 'POST',
@@ -144,7 +215,7 @@
             });
             var json = await resp.json();
             var table = json.data.averageValue;
-            var soundvalue = table.value;
+            var soundvalue = table.value
             var soundday = table.day;
             var soundhour =table.hour;
             var soundmonth = table.month;
@@ -154,12 +225,27 @@
             document.getElementById('soundhour').innerText = `${soundhour}:00`;
             document.getElementById('soundmonth').innerText = soundmonth;
             document.getElementById('soundyear').innerText = `- ${soundyear}`;
+            var value = soundvalue; 
+            var volumeIcon = document.getElementById('volumeIcon');
+
+            // Conditional statement for styling
+            if (value > 2000) {
+                volumeIcon.style.color = 'red';
+            } else {
+                volumeIcon.style.color = 'green';
+            }
+
         }
         pm25Latest()
         tempLatest()
         soundLatest()
         countLatest()
+        humLatest()
+        windLatest()
 </script>
+<djv class="big-header">
+    Latest value
+</djv>
 <div class="row">
     <div class="container">
     <div class="header">Temperature</div>
@@ -180,11 +266,22 @@
         <div id="pm25month">Month</div>
         <div id="pm25year">Year</div>
     </div>
-</div></div>
+</div>
+<div class="container">
+    <div class="header">Humidity</div>
+    <div id="humvalue" class="value"></div>
+    <div class="card">
+        <div id="humhour">Hour</div>
+        <div id="humday">Day</div>
+        <div id="hummonth">Month</div>
+        <div id="humyear">Year</div>
+    </div>
+</div>
+</div>
 
 <div class="row">
     <div class="container">
-        <div class="header">Count</div>
+        <div class="header">People in area</div>
         <div id="countvalue" class="value"></div>
         <div class="card">
 
@@ -198,6 +295,7 @@
     <div class="container">
         <div class="header">Sound</div>
         <div id="soundvalue" class="value"></div>
+        <i id="volumeIcon" class="gg-volume"></i>
         <div class="card">
             <div id="soundhour">Hour</div>
             <div id="soundday">Day</div>
@@ -205,7 +303,18 @@
             <div id="soundyear">Year</div>
         </div>
     </div>
+        
+    <div class="container">
+    <div class="header">Wind</div>
+    <div id="windvalue" class="value"></div>
+    <div class="card">
+        <div id="windhour">Hour</div>
+        <div id="windday">Day</div>
+        <div id="windmonth">Month</div>
+        <div id="windyear">Year</div>
+    </div>
 </div>
 
-
+</div>
+</div>
 </html>

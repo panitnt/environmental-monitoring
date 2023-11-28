@@ -52,11 +52,60 @@ li a:hover {
         border-radius: 16px;
         width: 400px;
         height: 250px; 
-        margin-left: 20%;
+        margin-left: 4%;
+        margin-bottom: 10px;
         margin-top: 30px;
         color: black;
         font-size: 20px;
     }
+
+    .gg-volume {
+        box-sizing: border-box;
+        position: relative;
+        display: block;
+        transform: scale(var(--ggs,1));
+        width: 8px;
+        height: 8px;
+        border: 2px solid;
+        border-right: 0;
+        -webkit-perspective: 12px;
+        perspective: 12px;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        justify-content: center; /* Center content horizontally */
+        align-items: center; /* Center content vertically */
+        justify-self: center;
+
+       }
+       
+       .gg-volume::after,
+       .gg-volume::before {
+        content: "";
+        display: block;
+        box-sizing: border-box;
+        position: absolute
+       }
+       
+       .gg-volume::before {
+        left: 2px;
+        transform: rotateY(-90deg);
+        width: 10px;
+        height: 10px;
+        border: 2px solid;
+        border-left: 0;
+        top: -3px
+       }
+       
+       .gg-volume::after {
+        width: 8px;
+        height: 16px;
+        border: 6px double;
+        border-left: 0;
+        border-top-right-radius: 100px;
+        border-bottom-right-radius: 100px;
+        right: -14px;
+        top: -6px
+       } 
 
     .value {
         display: flex;
@@ -89,4 +138,19 @@ li a:hover {
         justify-content: center; /* Center content horizontally */
         align-items: center; /* Center content vertically */
     }
-    
+    .big-header {
+        font-family: 'Kanit', 'Nunito', 'Prompt', sans-serif;
+        justify-self: center;
+        font-size: 40px;
+        font-weight: bold;
+        background: #842f2f;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        color: #ffff;
+        border-radius: 16px;
+        width: 400px;
+        display: flex;
+        justify-content: center; /* Center content horizontally */
+        align-items: center; /* Center content vertically */
+        margin-left: 35%;
+        margin-top: 10px;
+    }

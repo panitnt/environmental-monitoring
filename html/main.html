@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <title>Latest</title>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 </head>
@@ -46,7 +47,7 @@
             var pm25month = table.month;
             var pm25year = table.year;
             console.log(table.day)
-            document.getElementById('pm25Value').innerText = `${pm25value}`;
+            document.getElementById('pm25Value').innerText = `${pm25value} ug/m^3`;
             document.getElementById('pm25Day').innerText = `${pm25day} -`;
             document.getElementById('pm25hour').innerText = `${pm25hour}:00 `;
             document.getElementById('pm25month').innerText = pm25month;
@@ -76,13 +77,13 @@
             });
             var json = await resp.json();
             var table = json.data.averageValue;
-            var tempvalue = table.value;
+            var tempvalue = table.value.toFixed(2);
             var tempday = table.day;
             var temphour =table.hour;
             var tempmonth = table.month;
             var tempyear = table.year;
 
-            document.getElementById('tempvalue').innerText = tempvalue.toFixed(2);
+            document.getElementById('tempvalue').innerText = `${tempvalue} C`;
             document.getElementById('tempday').innerText = `${tempday} -`;
             document.getElementById('temphour').innerText = `${temphour}:00 `;
             document.getElementById('tempmonth').innerText = tempmonth;
@@ -249,10 +250,19 @@
 <djv class="big-header">
     Latest value
 </djv>
+<div class="container1">
+    <iconify-icon icon="subway:location-3" width="30" height="30"></iconify-icon>
+    <div>location: 13.5, 100.25</div>
+</div>
+
+
+<div></div>
 <div class="row">
     <div class="container">
-    <div class="header">Temperature</div>
-    <div id="tempvalue" class="value"></div>
+        <!-- <iconify-icon icon="circum:temp-high" width="100" height="100"></iconify-icon> -->
+
+    <div class="header"> Temperature</div>
+    <div id="tempvalue" class="value">value</div>
     <div class="card">
         <div id="temphour">Hour</div>
         <div id="tempday">Day</div>
@@ -262,7 +272,7 @@
 </div>
 <div class="container">
     <div class="header">PM2.5</div>
-    <div id="pm25Value" class="value"></div>
+    <div id="pm25Value" class="value">value</div>
     <div class="card" >
         <div id="pm25hour">Hour</div>
         <div id="pm25Day">Day</div>
@@ -272,7 +282,7 @@
 </div>
 <div class="container">
     <div class="header">Humidity</div>
-    <div id="humvalue" class="value"></div>
+    <div id="humvalue" class="value">value</div>
     <div class="card">
         <div id="humhour">Hour</div>
         <div id="humday">Day</div>
@@ -285,7 +295,7 @@
 <div class="row">
     <div class="container">
         <div class="header">People in area</div>
-        <div id="countvalue" class="value"></div>
+        <div id="countvalue" class="value">value</div>
         <div class="card">
 
             <div id="counthour">Hour</div>            
@@ -297,7 +307,7 @@
     
     <div class="container">
         <div class="header">Sound</div>
-        <div id="soundvalue" class="value"></div>
+        <div id="soundvalue" class="value">value</div>
         <i id="volumeIcon" class="gg-volume"></i>
         <div class="card">
             <div id="soundhour">Hour</div>

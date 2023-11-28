@@ -154,3 +154,12 @@ li a:hover {
         margin-left: 35%;
         margin-top: 10px;
     }
+.container1 {
+        font-family: 'Kanit', sans-serif;
+        font-family: 'Nunito', sans-serif;
+        font-family: 'Prompt', sans-serif;
+        display: flex;
+        justify-content: center; /* Center content horizontally */
+        align-items: center;
+        margin-top: 8px;
+}

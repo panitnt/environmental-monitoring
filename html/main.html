@@ -152,7 +152,7 @@
             var hummonth = table.month;
             var humyear = table.year;
             console.log(table.day)
-            document.getElementById('humvalue').innerText = `${humvalue}`;
+            document.getElementById('humvalue').innerText = `${humvalue} g.m-3`;
             document.getElementById('humday').innerText = `${humday} -`;
             document.getElementById('humhour').innerText = `${humhour}:00 `;
             document.getElementById('hummonth').innerText = hummonth;
@@ -187,7 +187,7 @@
             var windmonth = table.month;
             var windyear = table.year;
             console.log(table.day)
-            document.getElementById('windvalue').innerText = `${windvalue}`;
+            document.getElementById('windvalue').innerText = `${windvalue} m/s`;
             document.getElementById('windday').innerText = `${windday} -`;
             document.getElementById('windhour').innerText = `${windhour}:00 `;
             document.getElementById('windmonth').innerText = windmonth;
@@ -216,12 +216,12 @@
             });
             var json = await resp.json();
             var table = json.data.averageValue;
-            var soundvalue = table.value
+            var soundvalue = (20*Math.log(table.value)).toFixed(2)
             var soundday = table.day;
             var soundhour =table.hour;
             var soundmonth = table.month;
             var soundyear = table.year;
-            document.getElementById('soundvalue').innerText = soundvalue;
+            document.getElementById('soundvalue').innerText = `${soundvalue} dB`;
             document.getElementById('soundday').innerText = `${soundday} -`;
             document.getElementById('soundhour').innerText = `${soundhour}:00`;
             document.getElementById('soundmonth').innerText = soundmonth;
@@ -231,7 +231,7 @@
             var textValue = document.getElementById('soundvalue');
 
             // Conditional statement for styling
-            if (value > 2000) {
+            if (value > 140) {
                 volumeIcon.style.color = 'red';
                 textValue.style.color = 'red';
             } else {
@@ -247,9 +247,9 @@
         humLatest()
         windLatest()
 </script>
-<djv class="big-header">
+<div class="big-header">
     Latest value
-</djv>
+</div>
 <div class="container1">
     <iconify-icon icon="subway:location-3" width="30" height="30"></iconify-icon>
     <div>location: 13.5, 100.25</div>

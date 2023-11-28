@@ -83,7 +83,7 @@
                     range: [0, 24]
                 },
                 yaxis: {
-                    title: 'pm25',
+                    title: 'ug/m^3',
                     range: [0, 300]
                 }
             };
@@ -113,7 +113,7 @@
             var sound = table.separateHour
 
             var sound_x = sound.filter((dt) => dt.source === "soundsensor").map((dt) => dt.hour)
-            var sound_y = sound.filter((dt) => dt.source === "soundsensor").map((dt) => dt.value)
+            var sound_y = sound.filter((dt) => dt.source === "soundsensor").map((dt) => 20*Math.log(dt.value))
             // console.log(sound_x, sound_y);
 
             var data = [
@@ -125,14 +125,14 @@
                 },
             ]
             var layout = {
-                title: 'Average Sound',
+                title: 'Average sound intensity that cause harm to human ears',
                 xaxis: {
                     title: 'Hour',
                     range: [0, 24]
                 },
                 yaxis: {
-                    title: 'Sound',
-                    range: [0, 5000]
+                    title: 'dB',
+                    range: [0, 200]
                 }
             };
             var config = { responsive: true };
@@ -196,7 +196,7 @@
                     range: [0, 24]
                 },
                 yaxis: {
-                    title: 'Temp',
+                    title: 'Celsius',
                     range: [0, 50]
                 }
             };

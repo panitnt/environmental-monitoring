@@ -227,12 +227,15 @@
             document.getElementById('soundyear').innerText = `- ${soundyear}`;
             var value = soundvalue; 
             var volumeIcon = document.getElementById('volumeIcon');
+            var textValue = document.getElementById('soundvalue');
 
             // Conditional statement for styling
             if (value > 2000) {
                 volumeIcon.style.color = 'red';
+                textValue.style.color = 'red';
             } else {
                 volumeIcon.style.color = 'green';
+                textValue.style.color = 'green';
             }
 
         }

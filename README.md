@@ -20,6 +20,12 @@ Our project, Area Environmental Monitoring is a project designed to provide the 
    pip install -r requirements.txt
    ```
 4. Add file `config.py` (sample files in config.py.example)
+5. Copy code from `openapi/environment-api.yaml` and paste it into [python flask generator](https://editor.swagger.io/)
+
+   - Paste the code
+   - click *Generate Server*
+   - click *python-flask*
+   - move the folder to this project and rename to *stub*
 
 ## Run this project
 

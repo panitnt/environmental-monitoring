@@ -31,13 +31,117 @@ Our project, Area Environmental Monitoring is a project designed to provide the 
   openapi-to-graphql --cors openapi/environment-api.yaml
   ```
 
+## OPENAPI
+
+param can be: pm25, wind, temp, hum, humcount, sound
+
+source can be: apiairvisual, api
+
+- GET ```/latest/{param}```: Return latest average all params from all source
+
+   <u>list of param can use</u>
+   | param |
+   | --- |
+   |pm25|
+   |wind|
+   |temp|
+   |hum|
+   |humcount|
+   |sound|
+
+   example result
+   ```
+   {
+      "day": 0,
+      "month": 0,
+      "year": 0,
+      "hour": 0,
+      "value": 0
+   }
+   ```
+
+- GET ```/all/avg/{param}```: Return all average params from all source
+
+   <u>list of param can use</u>
+   | param |
+   | --- |
+   |pm25|
+   |wind|
+   |temp|
+   |hum|
+   |humcount|
+   |sound|
+
+   example result
+   ```
+   [
+      {
+         "day": 0,
+         "month": 0,
+         "year": 0,
+         "hour": 0,
+         "value": 0
+      }
+   ]
+   ```
+
+- GET ```/separate/{param}/{source}/hour```: Return average value of specific parameters and source
+
+   <u>list of param and source can use</u>
+   |param|source|
+   |---|---|
+   |pm25|apiairvisual|
+   |pm25|apiwqi|
+   |pm25|dustsensor|
+   |wind|apiairvisual|
+   |wind|apiopenweather|
+   |temp|apiairvisual|
+   |temp|apiopenweather|
+   |temp|kidbright|
+   |hum|apiairvisual|
+   |hum|apiopenweather|
+   |humcount|infraredsensor|
+   |sound|soundsensor|
+
+   example result
+   ```
+   [
+      {
+         "source": "string",
+         "hour": 0,
+         "value": 0
+      }
+   ]
+   ```
+- GET ```/compare/humcount/{param}```: Return human in the area compare with other parameters in each hours
+
+   <u>list of param can use</u>
+   | param |
+   | --- |
+   |pm25|
+   |temp|
+
+   example result
+   ```
+   [
+      {
+         "year": 0,
+         "month": 0,
+         "day": 0,
+         "hour": 0,
+         "humcount": 0,
+         "comparevalue": 0
+      }
+   ]
+   ```
+
 ## GraphQL
 
 - Find latest average hour
 
    ```
    {
-  	   averageValue(param: "param"){
+  	   averageValue(param:"param"){
          day
          month
          year
@@ -46,12 +150,11 @@ Our project, Area Environmental Monitoring is a project designed to provide the 
       }
    }
    ```
-- Find latest average hour
+- Find average by hour from specific parameter and source
 
    ```
    {
-	   separateHour(param: "param"){
-         source
+	   separateHour(param:"param" source:"source"){
          hour
          value
       }

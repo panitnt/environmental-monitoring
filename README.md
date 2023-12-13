@@ -19,6 +19,7 @@ Our project, Area Environmental Monitoring is a project designed to provide the 
    ```
    pip install -r requirements.txt
    ```
+4. Add file `config.py` (sample files in config.py.example)
 
 ## Run this project
 
@@ -32,10 +33,6 @@ Our project, Area Environmental Monitoring is a project designed to provide the 
   ```
 
 ## OPENAPI
-
-param can be: pm25, wind, temp, hum, humcount, sound
-
-source can be: apiairvisual, api
 
 - GET ```/latest/{param}```: Return latest average all params from all source
 

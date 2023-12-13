@@ -62,16 +62,21 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SourceParam'
-  /separate/{param}/hour:
+  /separate/{param}/{source}/hour:
     parameters:
     - name: param
       in: path
       required: true
       schema:
         type: string
+    - name: source
+      in: path
+      required: true
+      schema:
+        type: string
     get:
       summary: Return 
-      operationId: controller.hour_average_value
+      operationId: controller.hour_average_value_by_source
       responses:
         200:
           description: Success

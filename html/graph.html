@@ -35,43 +35,41 @@
                 body: JSON.stringify({
                     query: `
                     {
-                        separateHour(param: "pm25"){
-                            source
+                        apiairvisual:separateHour(param:"pm25" source:"apiairvisual"){
                             hour
                             value
                         }
-                    }`
+                        apiwqi:separateHour(param:"pm25" source:"apiwqi"){
+                            hour
+                            value
+                        }
+                        dustsensor:separateHour(param:"pm25" source:"dustsensor"){
+                            hour
+                            value
+                        }
+                    }
+                    `
                 })
             });
             var json = await resp.json();
             var table = json.data;
-            var pm25 = table.separateHour
-
-            var pm25_av_x = pm25.filter((dt) => dt.source === "apiairvisual").map((dt) => dt.hour)
-            var pm25_av_y = pm25.filter((dt) => dt.source === "apiairvisual").map((dt) => dt.value)
-
-            var pm25_wq_x = pm25.filter((dt) => dt.source === "apiwqi").map((dt) => dt.hour)
-            var pm25_wq_y = pm25.filter((dt) => dt.source === "apiwqi").map((dt) => dt.value)
-
-            var pm25_dust_x = pm25.filter((dt) => dt.source === "dustsensor").map((dt) => dt.hour)
-            var pm25_dust_y = pm25.filter((dt) => dt.source === "dustsensor").map((dt) => dt.value)
 
             var data = [
                 {
-                    x: pm25_av_x.map((row) => row),
-                    y: pm25_av_y.map((row) => row),
+                    x: table.apiairvisual.map((row) => row.hour),
+                    y: table.apiairvisual.map((row) => row.value),
                     type: 'line',
                     name: 'airvisual'
                 },
                 {
-                    x: pm25_wq_x.map((row) => row),
-                    y: pm25_wq_y.map((row) => row),
+                    x: table.apiwqi.map((row) => row.hour),
+                    y: table.apiwqi.map((row) => row.value),
                     type: 'line',
                     name: 'wqi'
                 },
                 {
-                    x: pm25_dust_x.map((row) => row),
-                    y: pm25_dust_y.map((row) => row),
+                    x: table.dustsensor.map((row) => row.hour),
+                    y: table.dustsensor.map((row) => row.value),
                     type: 'line',
                     name: 'dust sensor'
                 },
@@ -100,26 +98,20 @@
                 body: JSON.stringify({
                     query: `
                     {
-                        separateHour(param: "sound"){
-                            source
+                        soundsensor:separateHour(param:"sound" source:"soundsensor"){
                             hour
                             value
                         }
-                    }`
+                    }
+                    `
                 })
             });
             var json = await resp.json();
             var table = json.data;
-            var sound = table.separateHour
-
-            var sound_x = sound.filter((dt) => dt.source === "soundsensor").map((dt) => dt.hour)
-            var sound_y = sound.filter((dt) => dt.source === "soundsensor").map((dt) => 20*Math.log(dt.value))
-            // console.log(sound_x, sound_y);
-
             var data = [
                 {
-                    x: sound_x.map((row) => row),
-                    y: sound_y.map((row) => row),
+                    x: table.soundsensor.map((row) => row.hour),
+                    y: table.soundsensor.map((row) => 20*Math.log(row.value)),
                     type: 'line',
                     name: 'sound sensor'
                 },
@@ -148,43 +140,41 @@
                 body: JSON.stringify({
                     query: `
                     {
-                        separateHour(param: "temp"){
-                            source
-                            hour
-                            value
-                        }
+                        apiairvisual:separateHour(param:"temp" source:"apiairvisual"){
+                        hour
+                        value
+                    }
+                        apiopenweather:separateHour(param:"temp" source:"apiopenweather"){
+                        hour
+                        value
+                    }
+                        kidbright:separateHour(param:"temp" source:"kidbright"){
+                        hour
+                        value
+                    }
                     }`
                 })
             });
             var json = await resp.json();
             var table = json.data;
-            var temp = table.separateHour
-
-            var temp_av_x = temp.filter((dt) => dt.source === "apiairvisual").map((dt) => dt.hour)
-            var temp_av_y = temp.filter((dt) => dt.source === "apiairvisual").map((dt) => dt.value)
-
-            var temp_ao_x = temp.filter((dt) => dt.source === "apiopenweather").map((dt) => dt.hour)
-            var temp_ao_y = temp.filter((dt) => dt.source === "apiopenweather").map((dt) => dt.value)
-
-            var temp_kb_x = temp.filter((dt) => dt.source === "kidbright").map((dt) => dt.hour)
-            var temp_kb_y = temp.filter((dt) => dt.source === "kidbright").map((dt) => dt.value)
+            console.log(table);
 
             var data = [
                 {
-                    x: temp_av_x.map((row) => row),
-                    y: temp_av_y.map((row) => row),
+                    x: table.apiairvisual.map((row) => row.hour),
+                    y: table.apiairvisual.map((row) => row.value),
                     type: 'line',
-                    name: 'airvisualr'
+                    name: 'airvisual'
                 },
                 {
-                    x: temp_ao_x.map((row) => row),
-                    y: temp_ao_y.map((row) => row),
+                    x: table.apiopenweather.map((row) => row.hour),
+                    y: table.apiopenweather.map((row) => row.value),
                     type: 'line',
                     name: 'openweather'
                 },
                 {
-                    x: temp_kb_x.map((row) => row),
-                    y: temp_kb_y.map((row) => row),
+                    x: table.kidbright.map((row) => row.hour),
+                    y: table.kidbright.map((row) => row.value),
                     type: 'line',
                     name: 'kidbright'
                 },
@@ -213,8 +203,7 @@
                 body: JSON.stringify({
                     query: `
                     {
-                        separateHour(param: "humcount"){
-                            source
+                        humcount:separateHour(param:"humcount" source:"infraredsensor"){
                             hour
                             value
                         }
@@ -223,16 +212,11 @@
             });
             var json = await resp.json();
             var table = json.data;
-            var human = table.separateHour
-
-            var human_x = human.filter((dt) => dt.source === "infraredsensor").map((dt) => dt.hour)
-            var human_y = human.filter((dt) => dt.source === "infraredsensor").map((dt) => dt.value)
-
 
             var data = [
                 {
-                    x: human_x.map((row) => row),
-                    y: human_y.map((row) => row),
+                    x: table.humcount.map((row)=> row.hour),
+                    y: table.humcount.map((row)=> row.value),
                     type: 'line',
                     name: 'infrared sensor',
                 },

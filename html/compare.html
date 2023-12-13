@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Compare with human count</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="main.html">Latest</a></li>
+            <li><a href="graph.html">Graph</a></li>
+            <li><a href="compare.html">Compare</a></li>
+        </ul>
+    </nav>
+    <div class="col-2">
+        <div id="chart1" style="height:45vh"></div>
+        <div id="chart2" style="height:45vh"></div>
+    </div>
+    <script>
+        async function compareWithPM25Chart() {
+            var resp = await fetch('http://localhost:3000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+                    {
+                        compareHumcount(param:"pm25"){
+                        year
+                        month
+                        day
+                        hour
+                        humcount
+                        comparevalue
+                    }
+                    }
+                    `
+                })
+            });
+            var json = await resp.json();
+            var table = json.data;
+            var data = [
+                {
+                    y: table.compareHumcount.map((row) => row.comparevalue),
+                    x: table.compareHumcount.map((row) => row.humcount),
+                    mode: 'markers',
+                    type: 'scatter',
+                },
+            ]
+            var layout = {
+                title: 'Compare Human in the area with PM2.5',
+                xaxis: {
+                    title: 'Human Count',
+                },
+                yaxis: {
+                    title: 'pm25',
+                }
+            };
+            var config = { responsive: true };
+            Plotly.newPlot("chart1", data, layout, config);
+        }
+        async function compareWithTempChart() {
+            var resp = await fetch('http://localhost:3000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+                    {
+                        compareHumcount(param:"temp"){
+                        year
+                        month
+                        day
+                        hour
+                        humcount
+                        comparevalue
+                    }
+                    }
+                    `
+                })
+            });
+            var json = await resp.json();
+            var table = json.data;
+            var data = [
+                {
+                    y: table.compareHumcount.map((row) => row.comparevalue),
+                    x: table.compareHumcount.map((row) => row.humcount),
+                    mode: 'markers',
+                    type: 'scatter',
+                },
+            ]
+            var layout = {
+                title: 'Compare Human in the area with Temperature',
+                xaxis: {
+                    title: 'Human Count',
+                },
+                yaxis: {
+                    title: 'Temperature',
+                }
+            };
+            var config = { responsive: true };
+            Plotly.newPlot("chart2", data, layout, config);
+        }
+        compareWithPM25Chart()
+        compareWithTempChart()
+    </script>
+</body>
+</html>

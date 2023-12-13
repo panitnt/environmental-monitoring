@@ -179,3 +179,27 @@ def hour_average_value_by_source(param, source):
         """,['%d',param, source])
         result = [models.HourAverageValue(*row) for row in cs.fetchall()]
         return result
+    
+def compare_between_humcount_and_value(param):
+    with pool.connection() as conn, conn.cursor() as cs:
+            cs.execute("""
+            SELECT group_param.year,group_param.month,group_param.day,group_param.hour, AVG(group_hum.value) as humcount, AVG(group_param.value) as comparevalue
+            FROM (
+            SELECT CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, MONTH(ts) as month, YEAR(ts) as year, HOUR(ts) as hour, SUM(value) as value
+            FROM `main` 
+            WHERE param="humcount"
+            GROUP BY year,month,day,hour 
+            ORDER BY year,month, day,hour  
+            ) group_hum,
+            (
+            SELECT CONVERT(DATE_FORMAT(ts, %s), SIGNED) AS day, MONTH(ts) as month, YEAR(ts) as year, HOUR(ts) as hour, AVG(value) as value
+            FROM `main` 
+            WHERE param=%s
+            GROUP BY year,month,day,hour 
+            ORDER BY year,month, day,hour  
+            ) group_param
+            WHERE (group_hum.hour = group_param.hour) and (group_hum.day = group_param.day) and (group_hum.month = group_param.month) and (group_hum.year = group_param.year)
+            GROUP BY year,month,day,hour 
+            """,['%d','%d', param])
+            result = [models.CompareValue(*row) for row in cs.fetchall()]
+            return result

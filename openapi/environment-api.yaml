@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Environment Monitoring API
   description: 
-    This API ...
+    This Environment API is made for monitoring temperature, PM2.5, human count, and sound in the area.
   version: 2.0.0
 servers:
 - url: http://127.0.0.1:8080/envi-api/v2
@@ -43,25 +43,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AverageValue'
-  /separate/{param}:
-    parameters:
-    - name: param
-      in: path
-      required: true
-      schema:
-        type: string
-    get:
-      summary: Return 
-      operationId: controller.param_separate_source
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SourceParam'
   /separate/{param}/{source}/hour:
     parameters:
     - name: param
@@ -75,7 +56,7 @@ paths:
       schema:
         type: string
     get:
-      summary: Return 
+      summary: Return average value of specific parameters and source
       operationId: controller.hour_average_value_by_source
       responses:
         200:
@@ -94,7 +75,7 @@ paths:
       schema:
         type: string
     get:
-      summary: Return 
+      summary: Return human in the area compare with other parameters in each hours
       operationId: controller.compare_between_humcount_and_value
       responses:
         200:
@@ -121,15 +102,6 @@ components:
           type: integer
         value:
           type: number
-    SourceParam:
-      type: object
-      properties:
-        source:
-          type: string
-        lat:
-          type: number
-        lon:
-          type: number
     HourAverageValue:
       type: object
       properties:
@@ -154,3 +126,4 @@ components:
           type: number
         comparevalue:
           type: number
+          description: Value of parameter that want to compare

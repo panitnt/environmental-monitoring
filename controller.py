@@ -86,17 +86,6 @@ def all_average(param):
         """,[day_format,param])
         result = [models.AverageValue(*row) for row in cs.fetchall()]
         return result
-
-def param_separate_source(param):
-    with pool.connection() as conn, conn.cursor() as cs:
-        cs.execute("""
-        SELECT source, AVG(lat) as lat, AVG(lon) as lon
-        FROM `main` 
-        WHERE param=%s 
-        GROUP BY source
-        """,[param])
-        result = [models.SourceParam(*row) for row in cs.fetchall()]
-        return result
     
 def hour_average_value(param):
     if param == 'humcount':

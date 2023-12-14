@@ -17,6 +17,9 @@ Whether you're the area owner or event organizer, our project aims to be the go-
 
 Software and Knowledge Engineering (SKE19), Kasetsart University 
 
+## Requirements, Required libraries, and tools
+All requirements are mentioned in requirements.txt file.
+
 ## Project overview and features
 - Main page shows latest hour average values
    <img width="1437" alt="Screenshot 2566-12-14 at 12 56 17 AM" src="https://github.com/panitnt/environmental-monitoring/assets/92779345/489ca9c0-4a2b-4820-8482-7ff779563949">

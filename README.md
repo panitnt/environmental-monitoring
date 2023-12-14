@@ -1,8 +1,12 @@
 # Area Environmental Monitoring
 
-## Project Description
+## Project Overview
 
-Our project, Area Environmental Monitoring is a project designed to provide the most recent data on some of the key environmental parameters where we integrated data from multiple data source which are air quality(PM2.5) data, population density, sound levels, and light intensity in a specific location. By addressing these critical aspects, the project aims to contribute significantly to the environment, public health, and safety.
+The Area Environmental Monitoring project serves as a proof of concepts, designed to provide the most recent data on some of the key environmental parameters where we integrated data from multiple data source which are air quality(PM2.5) data, population density, sound levels, and light intensity in a specific location. By addressing these critical aspects, the project aims to contribute significantly to the environment monitoring and measuring, public health, and safety.
+
+The idea for the Area Environmental Monitoring project started when we were making live ad hoc decision to attending events like Kasetfair, Loy Krathong Festival at Kasetsart University, Live concerts, and etc. We realized there was a lack of real-time information about environment status in these events and specific areas within them. Our motivation start from the desire to make well-informed decisions about whether to attend an event or not. Therefore, we aim to enhance user decision and the overall event experience by offering real-time insights into crucial environmental factors.
+
+Whether you're the area owner or event organizer, our project aims to be the go-to solution for making public spaces and events safer and more enjoyable by collecting and integrating data. Moreover, sharing crucial environmental data to the public in real-time by visualizing each area environmental factor, showing correlation between population and PM2.5, and showing correlation between population and temperature in the area.
 
 ## Project Members
 

@@ -11,7 +11,7 @@ Our project, Area Environmental Monitoring is a project designed to provide the 
 - 6410545452 Nichakorn Chanajitpairee
 - 6410546246 Ratthicha Parinthip
 
-Software and Knowledge Engineering, Kasetsart University
+Software and Knowledge Engineering (SKE19), Kasetsart University
 
 ## Set up project
 

@@ -8,17 +8,6 @@ The idea for the Area Environmental Monitoring project started when we were maki
 
 Whether you're the area owner or event organizer, our project aims to be the go-to solution for making public spaces and events safer and more enjoyable by collecting and integrating data. Moreover, sharing crucial environmental data to the public in real-time by visualizing each area environmental factor, showing correlation between population and PM2.5, and showing correlation between population and temperature in the area.
 
-## Project Members
-
-- 6410545452 Nichakorn Chanajitpairee
-- 6410545592 Zion Keretho
-- 6410546181 Panitta Tanyavichitkul
-- 6410546246 Ratthicha Parinthip
-
-Software and Knowledge Engineering (SKE19), Kasetsart University 
-
-## Requirements, Required libraries, and tools
-All requirements are mentioned in requirements.txt file.
 
 ## Project overview and features
 - Main page shows latest hour average values
@@ -30,6 +19,8 @@ All requirements are mentioned in requirements.txt file.
 
 ***Because of our data not much, this graph cannot clearly tell the relationship between this😿***
 
+## Requirements, Required libraries, and tools
+All requirements are mentioned in requirements.txt file.
 
 ## Set up project
 
@@ -190,3 +181,12 @@ All requirements are mentioned in requirements.txt file.
       }
    }
    ```
+
+## Project Members
+
+- 6410545452 Nichakorn Chanajitpairee
+- 6410545592 Zion Keretho
+- 6410546181 Panitta Tanyavichitkul
+- 6410546246 Ratthicha Parinthip
+
+Software and Knowledge Engineering (SKE19), Kasetsart University 

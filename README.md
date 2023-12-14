@@ -25,7 +25,7 @@ All requirements are mentioned in requirements.txt file.
    <img width="1437" alt="Screenshot 2566-12-14 at 12 56 17 AM" src="https://github.com/panitnt/environmental-monitoring/assets/92779345/489ca9c0-4a2b-4820-8482-7ff779563949">
 - Graph page shows average values in the day by each source
    <img width="1440" alt="Screenshot 2566-12-14 at 12 56 40 AM" src="https://github.com/panitnt/environmental-monitoring/assets/92779345/c7e8ab43-d99d-4096-8fc6-3e5e1053724c">
-- Compare page shows compare human in the area with PM2.5 and Temperature
+- Compare page shows correlation between human in the area with PM2.5 and correlation between human in the area with Temperature
    <img width="1440" alt="Screenshot 2566-12-14 at 12 57 22 AM" src="https://github.com/panitnt/environmental-monitoring/assets/92779345/4d5327d8-b9ab-431f-8576-6feb375618cd">
 
 ***Because of our data not much, this graph cannot clearly tell the relationship between this😿***

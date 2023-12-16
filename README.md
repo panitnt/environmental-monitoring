@@ -19,6 +19,19 @@ Whether you're the area owner or event organizer, our project aims to be the go-
 
 ***Because of our data not much, this graph cannot clearly tell the relationship between this😿***
 
+## Collections data
+We collect the data from sensor 
+- Big sound detector
+   - keep data only when effect
+- Dust sensor(PMS7003)
+   - keep every 10 minutes
+- Analog infrared distance sensor
+   - keep every time that people walk
+- Temperature sensor (on Kidbright)
+   - keep every 10 minutes
+
+by collecting from code in folder `collectdatacode`
+
 ## Requirements, Required libraries, and tools
 All requirements are mentioned in requirements.txt file.
 
